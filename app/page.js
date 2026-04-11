@@ -1,10 +1,11 @@
 import Image from "next/image";
 
+
 export default function Home() {
   return (
     <>
       <div className="flex justify-center flex-col items-center gap-6 text-white h-[44vh] px-4">
-        <div className="font-bold flex items-center justify-center gap-4 text-4xl md:text-5xl lg:text-6xl text-center">Buy me a Chai <span><img src="/chaip.gif" width={60} height={60} alt="Chai animation" unoptimized/></span></div>
+        <div className="font-bold flex items-center justify-center gap-4 text-4xl md:text-5xl lg:text-6xl text-center">Buy me a Chai <span><img src="/chaip.gif" width={60} height={60} alt="Chai animation" unoptimized /></span></div>
         <p className="text-center max-w-2xl text-lg opacity-80">
           A decentralized application (dApp) built on the Ethereum blockchain that allows users to create and manage their own tea shops."
         </p>
@@ -22,44 +23,61 @@ export default function Home() {
       </div>
 
       <div className="text-white container mx-auto py-32">
-        <h1 className="text-2xl font-bold text-center my-2">How it works</h1>
-        <div className="flex gap-5 justify-around ">
-          <div className="item space-y-2 flex flex-col items-center justify-center">
-            <img src="/girly.gif" bg-white p-4 rounded-lg flex flex-col items-center gap-2 width={100} height={100} alt="" />
-            <p className="font-bold">Fund Yourself</p>
-            <p className="w-40 text-center">Raise funds for your tea shop venture.</p>
+        <h2 className="text-2xl font-bold text-center my-2">How it works</h2>
+
+
+
+        <div className="flex flex-col md:flex-row items-start justify-center gap-16 py-16 px-6 bg-navy ">
+
+
+          <div className="item space-y-4 flex flex-col items-center max-w-[280px]">
+            <div className="bg-white rounded-full p-1 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+              <img className="rounded-full" width={88} height={88} src="/girly.gif" alt="Funding" />
+            </div>
+            <h3 className="font-bold text-ghostWhite text-xl">Monthly Support</h3>
+            <p className="text-center text-slate-400 leading-relaxed">
+              Turn your tea shop passion into a sustainable career with <span className="text-electric font-semibold">reliable monthly income</span> from your biggest fans.
+            </p>
           </div>
 
-          <div className="item space-y-2 flex flex-col items-center justify-center">
-            <img src="/coin.gif" bg-white p-4 rounded-lg flex flex-col items-center gap-2 width={100} height={100} alt="" />
-            <p className="font-bold">Create a Tea Shop</p>
-            <p className="w-40 text-center">Create your own decentralized tea shop on the Ethereum blockchain.</p>
+          <div className="item space-y-4 flex flex-col items-center max-w-[280px]">
+            <div className="bg-white rounded-full p-1 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+              <img className="rounded-full" width={88} height={88} src="/coin.gif" alt="Blockchain" />
+            </div>
+            <h3 className="font-bold text-ghostWhite text-xl">Ownership on Chain</h3>
+            <p className="text-center text-slate-400 leading-relaxed">
+              Launch your <span className="text-electric font-semibold">decentralized shop</span> on Ethereum. No middlemen—just you, your tea, and your community.
+            </p>
           </div>
 
-          <div className="item space-y-2 flex flex-col items-center justify-center">
-            <img className="bg-white p-1 rounded-lg flex flex-col items-center gap-2 width={20} height={20}" src="/people1.gif"  alt="" />
-            <p className="font-bold">Join the Community</p>
-            <p className="w-40 text-center">Connect with other tea enthusiasts and share your passion for tea.</p>
+          {/* Item 3: The "Result" */}
+          <div className="item space-y-4 flex flex-col items-center max-w-[280px]">
+            <div className="bg-white rounded-full p-1 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
+              <img className="rounded-full" width={88} height={88} src="/people1.gif" alt="Community" />
+            </div>
+            <h3 className="font-bold text-ghostWhite text-xl">Direct Connection</h3>
+            <p className="text-center text-slate-400 leading-relaxed">
+              Engage with a global community of <span className="text-electric font-semibold">tea enthusiasts</span> who value your craft and want to see you grow.
+            </p>
           </div>
         </div>
       </div>
-
       <div className="bg-white h-1 opacity-10">
       </div>
 
-      <div className="text-white container mx-auto pb-32 pt-32 flex flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold text-center mb-14">Learn More about Us</h1>
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/cm_sAq0mMwA"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </>
-  );
+        <div className="text-white container mx-auto pb-32 pt-32 flex flex-col items-center justify-center">
+          <h2 className="text-2xl font-bold text-center mb-14">Learn More about Us</h2>
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/cm_sAq0mMwA"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </>
+      );
 }
 
 
