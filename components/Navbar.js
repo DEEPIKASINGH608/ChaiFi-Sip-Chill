@@ -51,7 +51,7 @@ const Navbar = () => {
 
           <div>
             <Link href="/login">
-              <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-900 px-4 py-1 text-xs font-bold rounded-lg transition-all" onClick={() => signIn({"github"})}>
+              <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-900 px-4 py-1 text-xs font-bold rounded-lg transition-all" >
                 Login
               </button>
             </Link>
