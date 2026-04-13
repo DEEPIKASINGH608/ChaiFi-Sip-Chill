@@ -4,16 +4,21 @@ import Image from "next/image";
 export default function Home() {
   return (
     <>
-      <div className="flex justify-center flex-col items-center gap-6 text-white h-[44vh] px-4">
-        <div className="font-bold flex items-center justify-center gap-4 text-4xl md:text-5xl lg:text-6xl text-center">Buy me a Chai <span><img src="/chaip.gif" width={60} height={60} alt="Chai animation" unoptimized /></span></div>
+      <div className="flex justify-center flex-col items-center gap-6 text-white min-h-[60vh] px-4">
+        <div className="font-bold flex items-center justify-center gap-4 text-4xl md:text-6xl text-center">
+          Buy me a Chai
+          <span>
+            <Image src="/chaip.gif" width={60} height={60} alt="Chai animation" unoptimized />
+          </span>
+        </div>
         <p className="text-center max-w-2xl text-lg opacity-80">
-          A decentralized application (dApp) built on the Ethereum blockchain that allows users to create and manage their own tea shops."
+          A decentralized application (dApp) built on the Ethereum blockchain that allows users to create and manage their own tea shops.
         </p>
         <div className="flex gap-4">
-          <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+          <button className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 font-medium rounded-lg text-sm px-8 py-3 transition-all duration-300 transform hover:scale-105">
             Start Now
           </button>
-          <button type="button" className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+          <button className="text-white border border-slate-700 bg-slate-900/50 hover:bg-slate-800 font-medium rounded-lg text-sm px-8 py-3 transition-all">
             Read More
           </button>
         </div>
@@ -65,19 +70,21 @@ export default function Home() {
       <div className="bg-white h-1 opacity-10">
       </div>
 
-        <div className="text-white container mx-auto pb-32 pt-32 flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold text-center mb-14">Learn More about Us</h2>
+      <div className="text-white container mx-auto pb-32 pt-32 flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-bold text-center mb-14">Learn More about Us</h2>
+        <div className="w-full max-w-2xl px-4">
           <iframe
-            width="560"
-            height="315"
+            className="w-full aspect-video rounded-xl shadow-lg"
             src="https://www.youtube.com/embed/cm_sAq0mMwA"
-            frameborder="0"
+            title="YouTube video player"
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
+            allowFullScreen>
           </iframe>
         </div>
-      </>
-      );
+      </div>
+    </>
+  );
 }
 
 
