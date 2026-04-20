@@ -1,9 +1,21 @@
 "use client"
 import React from 'react'
 import { useSession , signIn, signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const { data: session } = useSession();
+
+
+  if(session){
+    const router = useRouter();
+    router.push("/dashboard");
+  }
+    return <>
+    Signed in as {session.user.email}
+    <button onClick={() => signOut()}>Sign out</button>
+    </>
+  }
 
   return (
     <div className='text-white py-14 container mx-auto'>
@@ -142,7 +154,7 @@ const Login = () => {
 </div>
     </div>
   )
-}
+
 
 export default Login
 
