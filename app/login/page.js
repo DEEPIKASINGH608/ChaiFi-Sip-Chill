@@ -1,21 +1,19 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSession , signIn, signOut } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  }, [session, router]);
 
 
-  if(session){
-    const router = useRouter();
-    router.push("/dashboard");
-  }
-    return <>
-    Signed in as {session.user.email}
-    <button onClick={() => signOut()}>Sign out</button>
-    </>
-  }
 
   return (
     <div className='text-white py-14 container mx-auto'>
@@ -23,7 +21,7 @@ const Login = () => {
         <div className="flex flex-col items-center gap-2 min-h-screen p-10">
 
 
-<button
+<button     onClick={() => signIn("google")}
     className="flex items-center bg-slate-50 text-black border border-gray-300 rounded-lg shadow-md px-6 py-2 text-sm w-80 justify-center font-medium  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
     <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="-0.5 0 48 48" version="1.1">
@@ -51,7 +49,7 @@ const Login = () => {
 </button>
 
 
-<button
+<button onClick={() => signIn("linkedin")}
     className="flex items-center w-80 justify-center bg-slate-50 text-black border border-gray-300 rounded-lg shadow-md max-w-xs px-6 py-2 text-sm font-medium  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
     <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 -2 44 44" version="1.1">
@@ -68,7 +66,7 @@ const Login = () => {
 </button>
 
 
-<button
+<button onClick={() => signIn("twitter")}
     className="flex items-center w-80 justify-center bg-slate-50 text-black border border-gray-300 rounded-lg shadow-md max-w-xs px-6 py-2 text-sm font-medium  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
     <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 -4 48 48" version="1.1">
@@ -155,8 +153,8 @@ const Login = () => {
     </div>
   )
 
-
-export default Login
+}
+export default Login;
 
 
 
