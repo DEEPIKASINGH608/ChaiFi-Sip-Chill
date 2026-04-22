@@ -8,7 +8,7 @@ export default function Home() {
         <div className="font-bold flex items-center justify-center gap-4 text-4xl md:text-6xl text-center">
           Buy me a Chai
           <span>
-            <Image src="/chaip.gif" width={60} height={60} alt="Chai animation" unoptimized />
+            <Image src="/chaip.gif" width={60} height={60} style={{ height: 'auto' }} alt="Chai animation" unoptimized />
           </span>
         </div>
         <p className="text-center max-w-2xl text-lg opacity-80">
