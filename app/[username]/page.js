@@ -43,19 +43,34 @@ export default async function Username({ params }) {
           {/* Supporters Section*/}
           <div className="supporters w-full md:w-1/2 bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl min-h-[300px]">
             <h2 className='text-lg font-bold mb-6 border-b border-white/10 pb-3'>
-              Recent Supporters
+              Supporters
             </h2>
 
             <ul className='text-slate-300 text-lg space-y-4'>
               <li className="flex flex-col">
-                <span className="font-bold text-cyan-400">Shubham</span>
-                <span className=" text-slate-500 italic mt-1">
+                <div className="flex items-center gap-2"> {/* Added flex container for alignment */}
+                  <img
+                    src="avatar4.png"
+                    alt=""
+                    className='rounded-full size-8 object-cover border border-white/20' // Fixed size here
+                  />
+                  <span className="font-bold text-cyan-400 text-base">Shubham</span>
+                </div>
+                <span className="text-slate-500 italic mt-1 text-sm pl-10"> {/* Added padding-left to align with name */}
                   "I love your work! Keep it up!"
                 </span>
               </li>
+
               <li className="flex flex-col">
-                <span className="font-bold text-cyan-400">Jane Smith</span>
-                <span className=" text-slate-500 italic mt-1">
+                <div className="flex items-center gap-2">
+                  <img
+                    src="avatar3.png"
+                    alt=""
+                    className='rounded-full size-8 object-cover border border-white/20' // Fixed size here
+                  />
+                  <span className="font-bold text-cyan-400 text-base">Jane Smith</span>
+                </div>
+                <span className="text-slate-500 italic mt-1 text-sm pl-10">
                   "Your art is amazing! Can't wait to see more!"
                 </span>
               </li>
