@@ -51,7 +51,7 @@ const Navbar = () => {
           </div>
         )}
 
-        
+
 
         {session && (
           <button
@@ -75,5 +75,8 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+
 
 
