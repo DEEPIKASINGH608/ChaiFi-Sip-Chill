@@ -56,8 +56,7 @@ export default async function Username({ params }) {
                   />
                   <span className="font-bold text-cyan-400 text-base">Shubham</span>
                 </div>
-                <span className="text-slate-500 italic mt-1 text-sm pl-10"> {/* Added padding-left to align with name */}
-                  "I love your work! Keep it up!"
+                <span className="text-slate-500 italic mt-1 text-sm pl-10"> Subham donated $20! with a message "Keep up the great work!"
                 </span>
               </li>
 
@@ -70,7 +69,7 @@ export default async function Username({ params }) {
                   />
                   <span className="font-bold text-cyan-400 text-base">Jane Smith</span>
                 </div>
-                <span className="text-slate-500 italic mt-1 text-sm pl-10">
+                <span className="text-slate-500 italic mt-1 text-sm pl-10"> Jane donated $50! with a message
                   "Your art is amazing! Can't wait to see more!"
                 </span>
               </li>
@@ -79,7 +78,7 @@ export default async function Username({ params }) {
 
           {/* Make Payment Section */}
           <div className="makePayment w-1/2 bg-gradient-to-br from-[#1e2d44] to-[#121b28] border border-white/10 p-6 rounded-2xl min-h-[300px] shadow-2xl">
-            <h2 className='text-lg font-bold mb-4 tracking-tight'>Make a Payment</h2>
+            <h2 className="text-lg font-bold mb-4 tracking-tight">Make a Payment</h2>
 
             <div className="flex flex-col gap-2">
               <input
@@ -92,21 +91,23 @@ export default async function Username({ params }) {
                 placeholder="Message"
                 className="w-full p-3 text-sm rounded-lg bg-white/5 border border-white/10 focus:border-cyan-500 outline-none transition-all"
               />
-              <div className="flex gap-2">
+
+              {/* Fixed Section: Added w-full to ensure the flex container stays inside the parent */}
+              <div className="flex gap-2 w-full">
                 <input
                   type="number"
                   placeholder="Amount"
-                  className="flex-1 p-3 text-sm rounded-lg bg-white/5 border border-white/10 focus:border-cyan-500 outline-none transition-all"
+                  className="min-w-0 flex-1 p-3 text-sm rounded-lg bg-white/5 border border-white/10 focus:border-cyan-500 outline-none transition-all"
                 />
-                <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:brightness-110 text-white text-sm font-bold py-2 px-6 rounded-lg transition-all shadow-lg active:scale-95">
+                <button className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:brightness-110 text-white text-sm font-bold py-2 px-6 rounded-lg transition-all shadow-lg active:scale-95">
                   Pay
                 </button>
               </div>
 
-              {/* Quick Choice Buttons */}
-              <div className="flex gap-2 mt-2">
+              {/* Quick Select Buttons */}
+              <div className="flex flex-wrap gap-2 mt-1">
                 {['$10', '$20', '$30'].map((amt) => (
-                  <button key={amt} className="flex-1 bg-white/5 border border-white/10 hover:bg-white/10 py-2 rounded-md text-xs transition-all text-slate-400 hover:text-white">
+                  <button key={amt} className="flex-1 min-w-[60px] p-2 text-xs rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
                     {amt}
                   </button>
                 ))}
@@ -121,10 +122,6 @@ export default async function Username({ params }) {
     </div>
   );
 }
-
-
-
-
 
 
 
