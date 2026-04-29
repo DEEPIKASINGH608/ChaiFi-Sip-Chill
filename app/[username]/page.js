@@ -38,6 +38,7 @@ export default async function Username({ params }) {
         </div>
 
 
+
         <div className="payment flex flex-col md:flex-row gap-6 w-1/2 lg:w-[60%] mt-10">
 
           {/* Supporters Section*/}
@@ -122,6 +123,8 @@ export default async function Username({ params }) {
     </div>
   );
 }
+
+
 
 
 
