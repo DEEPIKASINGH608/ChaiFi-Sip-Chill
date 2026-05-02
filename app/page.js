@@ -55,7 +55,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Item 3: The "Result" */}
+          
           <div className="item space-y-4 flex flex-col items-center max-w-[280px]">
             <div className="bg-white rounded-full p-1 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
               <img className="rounded-full" width={88} height={88} src="/people1.gif" alt="Community" />

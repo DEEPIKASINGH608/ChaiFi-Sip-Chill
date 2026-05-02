@@ -49,11 +49,11 @@ export default async function Username({ params }) {
 
             <ul className='text-slate-300 text-lg space-y-4'>
               <li className="flex flex-col">
-                <div className="flex items-center gap-2"> {/* Added flex container for alignment */}
+                <div className="flex items-center gap-2"> {/*flex container for alignment */}
                   <img
                     src="avatar4.png"
                     alt=""
-                    className='rounded-full size-8 object-cover border border-white/20' // Fixed size here
+                    className='rounded-full size-8 object-cover border border-white/20'
                   />
                   <span className="font-bold text-cyan-400 text-base">Shubham</span>
                 </div>
@@ -66,7 +66,7 @@ export default async function Username({ params }) {
                   <img
                     src="avatar3.png"
                     alt=""
-                    className='rounded-full size-8 object-cover border border-white/20' // Fixed size here
+                    className='rounded-full size-8 object-cover border border-white/20'
                   />
                   <span className="font-bold text-cyan-400 text-base">Jane Smith</span>
                 </div>
@@ -93,7 +93,7 @@ export default async function Username({ params }) {
                 className="w-full p-3 text-sm rounded-lg bg-white/5 border border-white/10 focus:border-cyan-500 outline-none transition-all"
               />
 
-              {/* Fixed Section: Added w-full to ensure the flex container stays inside the parent */}
+              
               <div className="flex gap-2 w-full">
                 <input
                   type="number"

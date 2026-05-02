@@ -31,7 +31,7 @@ const Navbar = () => {
                         {/* Dropdown Menu */}
                         {isOpen && (
                             <>
-                                {/* Transparent Backdrop to close menu on click outside */}
+                            
                                 <div
                                     className="fixed inset-0 z-0"
                                     onClick={() => setIsOpen(false)}
