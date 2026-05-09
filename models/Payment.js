@@ -27,7 +27,7 @@ const paymentSchema = new Schema({
     done: {
         type: Boolean,
         default: false,
-    },  2
+    },  
 });
 
 const Payment =  model("Payment", paymentSchema);
