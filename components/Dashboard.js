@@ -34,7 +34,7 @@ const Dashboard = () => {
 
                 {/* Profile Picture */}
                 <div className='flex flex-col'>
-                    <label htmlFor="profilepic" className='text-sm font-semibold'>Profile Picture</label>
+                    <label htmlFor="profilepic" className='text-sm font-semibold'>Profile</label>
                     <input value={form.profilepic} onChange={handleChange} name='profilepic' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
                 </div>
 
