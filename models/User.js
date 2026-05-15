@@ -8,6 +8,7 @@ const userSchema = new Schema({
     },
     name: {
         type: String,
+        required: true,
     },
     username: {
         type: String,
@@ -31,4 +32,5 @@ const userSchema = new Schema({
 
 
 
-export default Mongoose.models.User || User;
+export default mongoose.models.User || mongoose.model("User", userSchema);
+

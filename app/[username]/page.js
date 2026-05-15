@@ -93,7 +93,7 @@ export default async function Username({ params }) {
                 className="w-full p-3 text-sm rounded-lg bg-white/5 border border-white/10 focus:border-cyan-500 outline-none transition-all"
               />
 
-              
+
               <div className="flex gap-2 w-full">
                 <input
                   type="number"
@@ -115,7 +115,6 @@ export default async function Username({ params }) {
               </div>
             </div>
           </div>
-
 
 
         </div>
