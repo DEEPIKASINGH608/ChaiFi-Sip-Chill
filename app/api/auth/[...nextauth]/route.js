@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { signIn } from "next-auth/react";
-import mongoose from "mongoose";
+import mongoose, { connect } from "mongoose";
 import User from "../../../../models/User";
+import connectDb from "@/db/connectDb";
 
 //import GoogleProvider from "next-auth/providers/google";
 // import EmailProvider from "next-auth/providers/email";
@@ -36,13 +37,7 @@ export const authOptions = {
   callbacks: {
   async signIn({ user, account, profile, email, credentials }) {
    if(account.provider == "github"){
-    //connect to a database
-    const client = await mongoose.connect("mongodb://localhost:27017/chai", {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-    });
-    const userEmail = user.email;
-    //check if the user already exists in the database
+    await connectDb();
     const currentUser =await User.findOne({ email: userEmail });
     if (!currentUser) {
       //if not, create a new user
