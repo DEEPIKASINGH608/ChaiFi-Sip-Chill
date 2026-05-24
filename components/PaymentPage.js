@@ -1,13 +1,23 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import Script from 'next/script'
 import { initiate } from '@/lib/api';
 
 const PaymentPage = ({ params }) => {
+    const [paymentform, setPaymentForm] = useState({second: ''});
 
-    const pay = async (amount, orderid) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPaymentForm((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const pay = async (amount) => {
         //get thev order id
         let a = await initiate(amount, session?.user.name, paymentform);
+        let orderId = a.id;
         var options = {
             "key": "process.env.KEY_ID",
             "amount": amount * 100,
@@ -132,19 +142,19 @@ const PaymentPage = ({ params }) => {
                             </h2>
 
                             <div className="flex flex-col gap-3">
-                                <input
+                                <input onChange = {handleChange} value = {paymentform.name}
                                     type="text"
                                     placeholder="Name"
                                     className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                 />
-                                <input
+                                <input onChange = {handleChange} value = {paymentform.message}
                                     type="text"
                                     placeholder="Message"
                                     className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                 />
 
                                 <div className="flex gap-2 w-full">
-                                    <input
+                                    <input onChange = {handleChange} value = {paymentform.amount}
                                         type="number"
                                         placeholder="Amount"
                                         className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
