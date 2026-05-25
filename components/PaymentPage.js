@@ -3,9 +3,11 @@ import React, { useState } from 'react'
 import Script from 'next/script'
 import { initiate } from '@/lib/api';
 
-const PaymentPage = ({ params }) => {
-    const [paymentform, setPaymentForm] = useState({second: ''});
+import { useSession } from 'next-auth/react';
 
+const PaymentPage = ({ username = "" }) => {
+    const [paymentform, setPaymentForm] = useState({second: ''});
+    const { data: session } = useSession();
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPaymentForm((prev) => ({
@@ -166,7 +168,7 @@ const PaymentPage = ({ params }) => {
 
                                 {/* Quick Select Buttons */}
                                 <div className="flex flex-wrap gap-2 mt-1">
-                                    {['₹10', '₹20', '₹30'].map((amt) => (
+                                    {['₹1000', '₹2000', '₹3000'].map((amt) => (
                                         <button key={amt} className="flex-1 min-w-[60px] p-2 text-xs font-semibold rounded-lg bg-white/[0.03] border border-white/10 text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all active:scale-95">
                                             {amt}
                                         </button>
