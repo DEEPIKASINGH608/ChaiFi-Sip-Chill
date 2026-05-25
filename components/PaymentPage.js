@@ -2,12 +2,12 @@
 import React, { useState } from 'react'
 import Script from 'next/script'
 import { initiate } from '@/lib/api';
-
 import { useSession } from 'next-auth/react';
 
 const PaymentPage = ({ username = "" }) => {
-    const [paymentform, setPaymentForm] = useState({second: ''});
-    const { data: session } = useSession();
+    // FIX 1: Initialize fields properly so your inputs can track data correctly
+    const [paymentform, setPaymentForm] = useState({ name: '', message: '', amount: '' });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPaymentForm((prev) => ({
@@ -17,20 +17,27 @@ const PaymentPage = ({ username = "" }) => {
     };
 
     const pay = async (amount) => {
-        //get thev order id
-        let a = await initiate(amount, session?.user.name, paymentform);
+        if (!amount || isNaN(amount) || Number(amount) <= 0) {
+            alert("Please enter or select a valid amount.");
+            return;
+        }
+
+        // get the order id
+        let a = await initiate(amount, username, paymentform);
         let orderId = a.id;
+
         var options = {
-            "key": "process.env.KEY_ID",
+            // FIX 2: Removed string quotes to access real environment variables
+            "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
             "amount": amount * 100,
             "currency": "INR",
             "name": "Acme Corp",
             "description": "Test Transaction",
             "image": "https://example.com/your_logo",
             "order_id": orderId,
-            "callback_url": `${process.env.URL}/api/razorpay`,
+            "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
             "prefill": {
-                "name": "Ansh Singh",
+                "name": paymentform.name || "Ansh Singh",
                 "email": "ansh.singh@gmail.com",
                 "contact": "9999999999"
             },
@@ -41,13 +48,13 @@ const PaymentPage = ({ username = "" }) => {
                 "color": "#3399cc"
             }
         };
-        var rzp1 = new Razorpay(options);
+        var rzp1 = new window.Razorpay(options);
         rzp1.open();
     };
+
     return (
         <>
             <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
-
 
             <div className='w-full bg-[#030712] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-gray-950 to-black text-white pb-12 min-h-screen text-sm selection:bg-cyan-500 selection:text-black'>
 
@@ -107,7 +114,7 @@ const PaymentPage = ({ username = "" }) => {
                                 <li className="flex flex-col group/item">
                                     <div className="flex items-center gap-2">
                                         <img
-                                            src="avatar4.png"
+                                            src="/avatar4.png"
                                             alt=""
                                             className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
                                         />
@@ -121,7 +128,7 @@ const PaymentPage = ({ username = "" }) => {
                                 <li className="flex flex-col group/item">
                                     <div className="flex items-center gap-2">
                                         <img
-                                            src="avatar3.png"
+                                            src="/avatar3.png"
                                             alt=""
                                             className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
                                         />
@@ -144,33 +151,40 @@ const PaymentPage = ({ username = "" }) => {
                             </h2>
 
                             <div className="flex flex-col gap-3">
-                                <input onChange = {handleChange} value = {paymentform.name}
+                                <input onChange={handleChange} value={paymentform.name || ''} name="name"
                                     type="text"
                                     placeholder="Name"
                                     className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                 />
-                                <input onChange = {handleChange} value = {paymentform.message}
+                                <input onChange={handleChange} value={paymentform.message || ''} name="message"
                                     type="text"
                                     placeholder="Message"
                                     className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                 />
 
                                 <div className="flex gap-2 w-full">
-                                    <input onChange = {handleChange} value = {paymentform.amount}
+                                    <input onChange={handleChange} value={paymentform.amount || ''} name="amount"
                                         type="number"
                                         placeholder="Amount"
                                         className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                     />
-                                    <button id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">
+                                    {/* FIX 3: Bound onClick hook directly into the payment processing function */}
+                                    <button onClick={() => pay(paymentform.amount)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">
                                         Pay
                                     </button>
                                 </div>
 
                                 {/* Quick Select Buttons */}
                                 <div className="flex flex-wrap gap-2 mt-1">
-                                    {['₹1000', '₹2000', '₹3000'].map((amt) => (
-                                        <button key={amt} className="flex-1 min-w-[60px] p-2 text-xs font-semibold rounded-lg bg-white/[0.03] border border-white/10 text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all active:scale-95">
-                                            {amt}
+                                    {/* FIX 4: Mapped string loops with clean integers to update amount value and trigger immediate checkout options correctly */}
+                                    {['1000', '2000', '3000'].map((amt) => (
+                                        <button
+                                            key={amt}
+                                            type="button"
+                                            onClick={() => setPaymentForm({ ...paymentform, amount: amt })}
+                                            className="flex-1 min-w-[60px] p-2 text-xs font-semibold rounded-lg bg-white/[0.03] border border-white/10 text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all active:scale-95"
+                                        >
+                                            ₹{amt}
                                         </button>
                                     ))}
                                 </div>
@@ -184,6 +198,6 @@ const PaymentPage = ({ username = "" }) => {
     )
 }
 
-export default PaymentPage
+export default PaymentPage;
 
 
