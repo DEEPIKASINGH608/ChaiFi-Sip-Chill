@@ -30,17 +30,17 @@ export const authOptions = {
             profilePic: user.image || "",
           });
         }
-        return true; // Allow sign in
+        return true;
       }
-      return false; // Reject sign in if it's not github
+      return false;
     },
 
     async session({ session, user, token }) {
-      await connectDb(); // Safe fallback check
+      await connectDb();
 
       const dbUser = await User.findOne({ email: session.user.email });
 
-      // Safety guard: only append username if user exists in db
+
       if (dbUser) {
         session.user.username = dbUser.username;
       }
@@ -50,10 +50,9 @@ export const authOptions = {
   }
 };
 
-// FIX: Initialize the NextAuth handler with your authOptions
+
 const handler = NextAuth(authOptions);
 
-// Export handler for GET and POST HTTP requests
 export { handler as GET, handler as POST };
 
 

@@ -59,10 +59,8 @@ const PaymentPage = ({ username = "" }) => {
 
                 {/* Banner Section */}
                 <div className='cover w-full relative h-[380px] overflow-hidden group'>
-                    {/* Animated Background Glow behind the banner */}
                     <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[6000ms]"></div>
 
-                    {/* Seamless Gradient Overlay blending directly into your page colors */}
                     <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-transparent via-70% to-[#030712] z-10 pointer-events-none'></div>
 
                     <img
@@ -75,7 +73,6 @@ const PaymentPage = ({ username = "" }) => {
                 {/* Profile Section */}
                 <div className='info flex flex-col items-center mt-[-60px] pb-32 relative z-10'>
 
-                    {/* Glowing Outer Ring around Profile Picture (Line Removed) */}
                     <div className='relative group'>
                         <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500 shadow-[0_0_30px_rgba(147,51,234,0.3)]"></div>
                         <img
@@ -140,9 +137,7 @@ const PaymentPage = ({ username = "" }) => {
                             </ul>
                         </div>
 
-                        {/* Make Payment Section */}
                         <div className="makePayment w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
-                            {/* Ambient background light within the payment card */}
                             <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
                             <h2 className="text-lg font-bold mb-4 tracking-tight text-slate-200 flex items-center gap-2">
@@ -167,15 +162,13 @@ const PaymentPage = ({ username = "" }) => {
                                         placeholder="Amount"
                                         className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                     />
-                                    {/* FIX 3: Bound onClick hook directly into the payment processing function */}
+
                                     <button onClick={() => pay(paymentform.amount)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">
                                         Pay
                                     </button>
                                 </div>
 
-                                {/* Quick Select Buttons */}
                                 <div className="flex flex-wrap gap-2 mt-1">
-                                    {/* FIX 4: Mapped string loops with clean integers to update amount value and trigger immediate checkout options correctly */}
                                     {['1000', '2000', '3000'].map((amt) => (
                                         <button
                                             key={amt}
@@ -198,5 +191,7 @@ const PaymentPage = ({ username = "" }) => {
 }
 
 export default PaymentPage;
+
+
 
 
