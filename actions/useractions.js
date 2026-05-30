@@ -30,5 +30,15 @@ export const initiate = async (amount, username, paymentformData) => {
     return x
 }
 
+export const fetchuser = async (username) => {
+    await connectDB()
+    let u = await User.findOne({username: username})
+    let user = u.toObject(flattenObject)
+    return user
+}
 
-
+export const fetchpayments = async (username) => {
+    await connectDB()
+    let p = (await Payment.find({to_user: username})).toSorted({amount: -1})
+    return p
+}
