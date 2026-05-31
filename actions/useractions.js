@@ -2,7 +2,7 @@
 
 import Razorpay from "razorpay";
 import Payment from "../models/Payment";
-import connectDB from "../utils/connectDB";
+import connectDB from "../db/connectDb";
 import User from "../models/User";
 
 export const initiate = async (amount, username, paymentformData) => {
@@ -16,29 +16,40 @@ export const initiate = async (amount, username, paymentformData) => {
         amount: Number.parseInt(amount) * 100,
         currency: "INR",
     }
+    try {
+        let x = await instance.orders.create(options)
 
-    let x = await instance.orders.create(options)
+        await Payment.create({
+            oid: x.id,
+            amount: amount,
+            to_user: username,
+            name: paymentformData.name,
+            message: paymentformData.message
+        });
 
-    await Payment.create({
-        oid: x.id,
-        amount: amount,
-        to_username: username,
-        name: paymentformData.name,
-        message: paymentformData.message
-    })
-
-    return x
-}
+        return x
+    } catch (error) {
+        console.error("Error initiating payment:", error);
+        throw new Error("Failed to initiate payment");
+    }
+} // 👈 This closing brace was missing!
 
 export const fetchuser = async (username) => {
     await connectDB()
-    let u = await User.findOne({username: username})
-    let user = u.toObject(flattenObject)
+    let u = await User.findOne({ username: username })
+    if (!u) return null; // Safety check in case user doesn't exist
+
+    // Converts the Mongoose document into a plain, perfectly serializable object
+    let user = JSON.parse(JSON.stringify(u))
+
     return user
 }
 
 export const fetchpayments = async (username) => {
     await connectDB()
-    let p = (await Payment.find({to_user: username})).toSorted({amount: -1})
-    return p
+    let p = await Payment.find({ to_user: username }).sort({ amount: -1 }).lean()
+
+    // Safely turn ObjectIds and Dates into clean, simple text strings
+    return JSON.parse(JSON.stringify(p))
 }
+

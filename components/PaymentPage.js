@@ -1,13 +1,22 @@
 "use client"
-import React, { useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import Script from 'next/script'
-import { initiate } from '@/lib/api';
+//import { initiate } from '@/lib/api';
 import { useSession } from 'next-auth/react';
+import  { fetchuser, fetchpayments, initiate } from '@/actions/useractions'
 
 const PaymentPage = ({ username = "" }) => {
 
     const [paymentform, setPaymentForm] = useState({ });
     const [currentUser, setcurrentUser] = useState({ });
+    const [payments, setPayments] = useState([])
+    const [supporters, setSupporters] = useState([]);
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPaymentForm((prev) => ({
@@ -16,9 +25,11 @@ const PaymentPage = ({ username = "" }) => {
         }));
     };
 
-    const getData= async (params) => {
+    const getData= async () => {
         let u = await fetchuser(username)
         setcurrentUser(u)
+        let dbpayments = await fetchpayments(username)
+        setPayments(dbpayments)
     }
 
     const pay = async (amount) => {
@@ -112,33 +123,22 @@ const PaymentPage = ({ username = "" }) => {
                             </h2>
 
                             <ul className='text-slate-300 text-lg space-y-4'>
-                                <li className="flex flex-col group/item">
-                                    <div className="flex items-center gap-2">
-                                        <img
-                                            src="/avatar4.png"
-                                            alt=""
-                                            className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
-                                        />
-                                        <span className="font-bold text-cyan-400 text-base">Shubham</span>
-                                    </div>
-                                    <span className="text-slate-400 italic mt-1 text-sm pl-10">
-                                        Subham donated <span className="text-emerald-400 font-semibold">$20!</span> with a message "Keep up the great work!"
-                                    </span>
-                                </li>
 
-                                <li className="flex flex-col group/item">
-                                    <div className="flex items-center gap-2">
-                                        <img
-                                            src="/avatar3.png"
-                                            alt=""
-                                            className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
+                                {supporters.map((supporter, index) => (
+                                    <li className="flex flex-col group/item">
+                                        <div className="flex items-center gap-2">
+                                            <img
+                                                src={supporter.avatar}
+                                                alt={supporter.name}
+                                                className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
                                         />
-                                        <span className="font-bold text-cyan-400 text-base">Jane Smith</span>
+                                        <span className="font-bold text-cyan-400 text-base">{supporter.name}</span>
                                     </div>
                                     <span className="text-slate-400 italic mt-1 text-sm pl-10">
-                                        Jane donated <span className="text-emerald-400 font-semibold">$50!</span> with a message "Your art is amazing! Can't wait to see more!"
+                                        {supporter.message}
                                     </span>
                                 </li>
+                            ))}
                             </ul>
                         </div>
 
