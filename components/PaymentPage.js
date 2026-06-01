@@ -1,20 +1,28 @@
 "use client"
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Script from 'next/script'
 //import { initiate } from '@/lib/api';
 import { useSession } from 'next-auth/react';
-import  { fetchuser, fetchpayments, initiate } from '@/actions/useractions'
+import { fetchuser, fetchpayments, initiate } from '@/actions/useractions'
 
 const PaymentPage = ({ username = "" }) => {
 
-    const [paymentform, setPaymentForm] = useState({ });
-    const [currentUser, setcurrentUser] = useState({ });
+    const [paymentform, setPaymentForm] = useState({});
+    const [currentUser, setcurrentUser] = useState({});
     const [payments, setPayments] = useState([])
-    const [supporters, setSupporters] = useState([]);
 
+    // Inside PaymentPage.js
     useEffect(() => {
-        getData()
-    }, [])
+        const getData = async () => {
+            // Make sure you are using the 'username' prop here!
+            let dbPayments = await fetchpayments(username);
+            setPayments(dbPayments);
+        };
+
+        if (username) {
+            getData();
+        }
+    }, [username]); // 👈 Make sure username is in this array
 
 
     const handleChange = (e) => {
@@ -25,12 +33,6 @@ const PaymentPage = ({ username = "" }) => {
         }));
     };
 
-    const getData= async () => {
-        let u = await fetchuser(username)
-        setcurrentUser(u)
-        let dbpayments = await fetchpayments(username)
-        setPayments(dbpayments)
-    }
 
     const pay = async (amount) => {
         if (!amount || isNaN(amount) || Number(amount) <= 0) {
@@ -123,80 +125,86 @@ const PaymentPage = ({ username = "" }) => {
                             </h2>
 
                             <ul className='text-slate-300 text-lg space-y-4'>
+                                {payments.length === 0 && (
+                                    <li className="text-slate-500 text-center mt-10">
+                                        No supporters yet. Be the first!
+                                    </li>
+                                )}
 
-                                {supporters.map((supporter, index) => (
-                                    <li className="flex flex-col group/item">
-                                        <div className="flex items-center gap-2">
-                                            <img
-                                                src={supporter.avatar}
-                                                alt={supporter.name}
-                                                className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
-                                        />
-                                        <span className="font-bold text-cyan-400 text-base">{supporter.name}</span>
-                                    </div>
-                                    <span className="text-slate-400 italic mt-1 text-sm pl-10">
-                                        {supporter.message}
-                                    </span>
-                                </li>
-                            ))}
+                                {payments.map((payment, index) => (
+                                    <li key = { index } className = "flex flex-col group/item" >
+                <div className="flex items-center gap-2">
+                    <img
+                        src={payment.avatar}
+                        alt={payment.name}
+                        className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
+                    />
+                    <span className="font-bold text-cyan-400 text-base">
+                        {payment.name}
+                        <span className="text-slate-400 font-normal"> donated </span>
+                        ₹{payment.amount}
+                    </span>
+                </div>
+                <span className="text-slate-400 italic mt-1 text-sm pl-10">
+                    "{payment.message}"
+                </span>
+            </li>
+        ))}
                             </ul>
-                        </div>
+                    </div>
 
-                        <div className="makePayment w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
-                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div className="makePayment w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
+                        <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-                            <h2 className="text-lg font-bold mb-4 tracking-tight text-slate-200 flex items-center gap-2">
-                                <span className="text-cyan-400">☕</span> Make a Payment
-                            </h2>
+                        <h2 className="text-lg font-bold mb-4 tracking-tight text-slate-200 flex items-center gap-2">
+                            <span className="text-cyan-400">☕</span> Make a Payment
+                        </h2>
 
-                            <div className="flex flex-col gap-3">
-                                <input onChange={handleChange} value={paymentform.name || ''} name="name"
-                                    type="text"
-                                    placeholder="Name"
-                                    className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
+                        <div className="flex flex-col gap-3">
+                            <input onChange={handleChange} value={paymentform.name || ''} name="name"
+                                type="text"
+                                placeholder="Name"
+                                className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
+                            />
+                            <input onChange={handleChange} value={paymentform.message || ''} name="message"
+                                type="text"
+                                placeholder="Message"
+                                className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
+                            />
+
+                            <div className="flex gap-2 w-full">
+                                <input onChange={handleChange} value={paymentform.amount || ''} name="amount"
+                                    type="number"
+                                    placeholder="Amount"
+                                    className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                 />
-                                <input onChange={handleChange} value={paymentform.message || ''} name="message"
-                                    type="text"
-                                    placeholder="Message"
-                                    className="w-full p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
-                                />
 
-                                <div className="flex gap-2 w-full">
-                                    <input onChange={handleChange} value={paymentform.amount || ''} name="amount"
-                                        type="number"
-                                        placeholder="Amount"
-                                        className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
-                                    />
+                                <button onClick={() => pay(paymentform.amount)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">
+                                    Pay
+                                </button>
+                            </div>
 
-                                    <button onClick={() => pay(paymentform.amount)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">
-                                        Pay
+                            <div className="flex flex-wrap gap-2 mt-1">
+                                {['1000', '2000', '3000'].map((amt) => (
+                                    <button
+                                        key={amt}
+                                        type="button"
+                                        onClick={() => setPaymentForm({ ...paymentform, amount: amt })}
+                                        className="flex-1 min-w-[60px] p-2 text-xs font-semibold rounded-lg bg-white/[0.03] border border-white/10 text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all active:scale-95"
+                                    >
+                                        ₹{amt}
                                     </button>
-                                </div>
-
-                                <div className="flex flex-wrap gap-2 mt-1">
-                                    {['1000', '2000', '3000'].map((amt) => (
-                                        <button
-                                            key={amt}
-                                            type="button"
-                                            onClick={() => setPaymentForm({ ...paymentform, amount: amt })}
-                                            className="flex-1 min-w-[60px] p-2 text-xs font-semibold rounded-lg bg-white/[0.03] border border-white/10 text-slate-300 hover:bg-white/[0.08] hover:text-white hover:border-white/20 transition-all active:scale-95"
-                                        >
-                                            ₹{amt}
-                                        </button>
-                                    ))}
-                                </div>
+                                ))}
                             </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
+        </div >
         </>
     )
 }
 
 export default PaymentPage;
-
-
-
 

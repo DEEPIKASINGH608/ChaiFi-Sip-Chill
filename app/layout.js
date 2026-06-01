@@ -14,7 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export const metadata = {
   title: "ChaiFi - Sip & Chill",
   description: "ChaiFi is a decentralized application (dApp) built on the Ethereum blockchain that allows users to create and manage their own tea shops. With ChaiFi, users can brew and sell virtual tea, earn rewards, and interact with other tea enthusiasts in a fun and engaging way.",
@@ -35,5 +34,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
 
