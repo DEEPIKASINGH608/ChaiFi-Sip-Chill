@@ -47,32 +47,31 @@ export const fetchpayments = async (username) => {
     return JSON.parse(JSON.stringify(p))
 }
 
-export const updateProfile = async (data, oldusername) => {
+
+export const updateProfile = async (oldusername, data) => {
     try {
         // 1. Ensure database is connected
         await connectDB();
 
-        // 2. Double check if the username is being updated,
-        // to prevent duplicate username conflicts with other accounts
-        if (oldUsername !== formData.username) {
-            const existingUser = await User.findOne({ username: formData.username });
+        // 2. Double check if the username is being changed, using the correct lowercase variable names
+        if (oldusername !== data.username) {
+            const existingUser = await User.findOne({ username: data.username });
             if (existingUser) {
                 return { success: false, message: "Username is already taken!" };
             }
         }
 
-        // 3. Find by the OLD username (tracked from session) and update with the new form values
+        // 3. Find by the OLD username and update with the new data object values
         const updatedUser = await User.findOneAndUpdate(
-            { username: oldUsername },
-            { $set: formData },
-            { new: true, runValidators: true } // returns the updated document and checks validation
+            { username: oldusername },
+            { $set: data },
+            { new: true, runValidators: true }
         );
 
         if (!updatedUser) {
             return { success: false, message: "User profile not found in database." };
         }
 
-        // Return a clean, plain object back to the client component
         return {
             success: true,
             user: JSON.parse(JSON.stringify(updatedUser))

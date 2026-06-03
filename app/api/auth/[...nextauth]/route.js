@@ -22,12 +22,11 @@ export const authOptions = {
         const currentUser = await User.findOne({ email: userEmail });
 
         if (!currentUser) {
-          // Creates a new user if they don't exist yet
           await User.create({
             email: userEmail,
             username: userEmail.split("@")[0],
             name: user.name || "",
-            profilePic: user.image || "",
+            profilepic: user.image || "",
           });
         }
         return true;
@@ -35,21 +34,43 @@ export const authOptions = {
       return false;
     },
 
-    async session({ session, user, token }) {
+    async jwt({ token, user, trigger, session }){
       await connectDb();
+      if (user) {
+        const dbUser = await User.findOne({ email: user.email });
+        if (dbUser) {
+          token.username = dbUser.username;
+          token.name = dbUser.name;
+          token.profilepic = dbUser.profilepic;
+          token.coverpic = dbUser.coverpic;
+          token.razorpayid = dbUser.razorpayid;
+          token.razorpaysecret = dbUser.razorpaysecret;
+        }
+      }
 
-      const dbUser = await User.findOne({ email: session.user.email });
+      // Handle live client-side session mutations triggered by update()
+      if (trigger === "update" && session) {
+        return { ...token, ...session };
+      }
 
+      return token;
+    },
 
-      if (dbUser) {
-        session.user.username = dbUser.username;
+    async session({ session, token }) {
+      // Pass token credentials safely through to the front-end session instance
+      if (token && session.user) {
+        session.user.username = token.username;
+        session.user.name = token.name;
+        session.user.profilepic = token.profilepic;
+        session.user.coverpic = token.coverpic;
+        session.user.razorpayid = token.razorpayid;
+        session.user.razorpaysecret = token.razorpaysecret;
       }
 
       return session;
     },
   }
 };
-
 
 const handler = NextAuth(authOptions);
 

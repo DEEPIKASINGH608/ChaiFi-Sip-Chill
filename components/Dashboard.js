@@ -33,7 +33,7 @@ const Dashboard = () => {
     }
 
     const handleSubmit = async (e) => {
-        // 🛑 Stop the form from reloading the browser page instantly
+        //  Stop the form from reloading the browser page instantly
         e.preventDefault()
 
         const currentUsername = session?.user?.username || session?.user?.name;
@@ -44,8 +44,17 @@ const Dashboard = () => {
         const { _id, __v, createdAt, updatedAt, ...cleanFormData } = form;
 
         try {
-            let a = await updateProfile(currentUsername, cleanFormData)
-            await update()
+            await updateProfile(currentUsername, cleanFormData)
+            await update({
+                name: cleanFormData.name,
+                username: cleanFormData.username,
+                email: cleanFormData.email,
+                profilepic: cleanFormData.profilepic,
+                coverpic: cleanFormData.coverpic,
+                razorpayid: cleanFormData.razorpayid,
+                razorpaysecret: cleanFormData.razorpaysecret
+            })
+
             alert("🎉 Profile updated successfully!")
         } catch (err) {
             console.error("Failed to update profile:", err)

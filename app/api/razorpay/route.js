@@ -28,9 +28,9 @@ export async function POST(req) {
             { returnDocument: 'after' }
         );
 
-        console.log("=== RAZORPAY CALLBACK DEBUG ===");
+        console.log("RAZORPAY CALLBACK DEBUG");
         console.log("Updated Payment Document from DB:", updatedPayment);
-        console.log("===============================");
+        console.log("===========");
         return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/${updatedPayment.to_user}?paymentdone=true`);
 
     } else {
