@@ -2,8 +2,8 @@
 
 import Razorpay from "razorpay";
 import Payment from "../models/Payment";
-import connectDB from "../db/connectDb";
-import User from "../models/User";
+import connectDB from "@/db/connectDb";
+import User from "@/models/User";
 
 export const initiate = async (amount, username, paymentformData) => {
     await connectDB()
@@ -48,14 +48,40 @@ export const fetchpayments = async (username) => {
 }
 
 export const updateProfile = async (data, oldusername) => {
-    await connectDB()
-    let ndata = Object.fromEntries(data)
+    try {
+        // 1. Ensure database is connected
+        await connectDB();
 
-    if(oldusername !== ndata.username){
-    let u = await username.findOne({username: ndata.username})
-    if(u){
-        return {error: "Username already exists."}
+        // 2. Double check if the username is being updated,
+        // to prevent duplicate username conflicts with other accounts
+        if (oldUsername !== formData.username) {
+            const existingUser = await User.findOne({ username: formData.username });
+            if (existingUser) {
+                return { success: false, message: "Username is already taken!" };
+            }
+        }
+
+        // 3. Find by the OLD username (tracked from session) and update with the new form values
+        const updatedUser = await User.findOneAndUpdate(
+            { username: oldUsername },
+            { $set: formData },
+            { new: true, runValidators: true } // returns the updated document and checks validation
+        );
+
+        if (!updatedUser) {
+            return { success: false, message: "User profile not found in database." };
+        }
+
+        // Return a clean, plain object back to the client component
+        return {
+            success: true,
+            user: JSON.parse(JSON.stringify(updatedUser))
+        };
+
+    } catch (error) {
+        console.error("Database Update Error:", error);
+        throw new Error(error.message || "Failed to update profile due to an internal error.");
     }
-  }
-  await username.updateOne({email: ndata.email}, ndata)
 }
+
+
