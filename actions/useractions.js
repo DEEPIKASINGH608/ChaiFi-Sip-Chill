@@ -37,19 +37,13 @@ export const initiate = async (amount, username, paymentformData) => {
 export const fetchuser = async (username) => {
     await connectDB()
     let u = await User.findOne({ username: username })
-    if (!u) return null; // Safety check in case user doesn't exist
-
-    // Converts the Mongoose document into a plain, perfectly serializable object
     let user = JSON.parse(JSON.stringify(u))
-
     return user
 }
 
 export const fetchpayments = async (username) => {
     await connectDB()
     let p = await Payment.find({ to_user: username }).sort({ amount: -1 }).lean()
-
-    // Safely turn ObjectIds and Dates into clean, simple text strings
     return JSON.parse(JSON.stringify(p))
 }
 

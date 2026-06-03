@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Script from 'next/script'
-//import { initiate } from '@/lib/api';
 import { useSession } from 'next-auth/react';
 import { fetchuser, fetchpayments, initiate } from '@/actions/useractions'
 
@@ -11,18 +10,16 @@ const PaymentPage = ({ username = "" }) => {
     const [currentUser, setcurrentUser] = useState({});
     const [payments, setPayments] = useState([])
 
-    // Inside PaymentPage.js
     useEffect(() => {
         const getData = async () => {
-            // Make sure you are using the 'username' prop here!
             let dbPayments = await fetchpayments(username);
-            setPayments(dbPayments);
+            setPayments(dbPayments || []);
         };
 
         if (username) {
             getData();
         }
-    }, [username]); // 👈 Make sure username is in this array
+    }, [username]);
 
 
     const handleChange = (e) => {
@@ -40,33 +37,53 @@ const PaymentPage = ({ username = "" }) => {
             return;
         }
 
+        try {
+            // 1. Initiate the order on the backend
+            let a = await initiate(amount, username, paymentform);
 
-        let a = await initiate(amount, username, paymentform);
-        let orderId = a.id;
-
-        var options = {
-            "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-            "amount": amount * 100,
-            "currency": "INR",
-            "name": "Acme Corp",
-            "description": "Test Transaction",
-            "image": "https://example.com/your_logo",
-            "order_id": orderId,
-            "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
-            "prefill": {
-                "name": paymentform.name || "Ansh Singh",
-                "email": "ansh.singh@gmail.com",
-                "contact": "9999999999"
-            },
-            "notes": {
-                "address": "Razorpay Corporate Office"
-            },
-            "theme": {
-                "color": "#3399cc"
+            if (!a || !a.id) {
+                alert("Server Error: The initiate() action failed to return a valid Razorpay Order ID.");
+                return;
             }
-        };
-        var rzp1 = new window.Razorpay(options);
-        rzp1.open();
+
+            let orderId = a.id;
+
+            // 2. Check if Razorpay script loaded correctly
+            if (!window.Razorpay) {
+                alert("Razorpay SDK failed to load. Please check your internet connection or reload the page.");
+                return;
+            }
+
+            var options = {
+                "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                "amount": amount * 100,
+                "currency": "INR",
+                "name": "Acme Corp",
+                "description": "Test Transaction",
+                "image": "https://example.com/your_logo",
+                "order_id": orderId,
+                "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
+                "prefill": {
+                    "name": paymentform.name || "Ansh Singh",
+                    "email": "ansh.singh@gmail.com",
+                    "contact": "9999999999"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            var rzp1 = new window.Razorpay(options);
+            rzp1.open();
+
+        } catch (error) {
+            // This catches any server crashes, network drops, or runtime errors and alerts it!
+            console.error("❌ Payment processing failed:", error);
+            alert("Payment failed to initialize! Error: " + error.message);
+        }
     };
 
     return (
@@ -76,7 +93,7 @@ const PaymentPage = ({ username = "" }) => {
             <div className='w-full bg-[#030712] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-gray-950 to-black text-white pb-12 min-h-screen text-sm selection:bg-cyan-500 selection:text-black'>
 
                 {/* Banner Section */}
-                <div className='cover w-full relative h-[380px] overflow-hidden group'>
+                <div className='coverPiczz w-full relative h-[380px] overflow-hidden group'>
                     <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-[6000ms]"></div>
 
                     <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-transparent via-70% to-[#030712] z-10 pointer-events-none'></div>
@@ -126,7 +143,7 @@ const PaymentPage = ({ username = "" }) => {
 
                             <ul className='text-slate-300 text-lg space-y-4'>
                                 {payments.length === 0 && (
-                                    <li className="text-slate-500 text-center mt-10">
+                                    <li className="text-slate-500 text-center mt-10 text-sm">
                                         No supporters yet. Be the first!
                                     </li>
                                 )}
@@ -135,7 +152,7 @@ const PaymentPage = ({ username = "" }) => {
                                     <li key={index} className="flex flex-col group/item" >
                                         <div className="flex items-center gap-2">
                                             <img
-                                                src={payment.avatar}
+                                                src={payment.avatar || "/cat.jpg"} // Fixed: Fallback asset applied if MongoDB avatar is empty
                                                 alt={payment.name}
                                                 className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
                                             />
@@ -153,6 +170,7 @@ const PaymentPage = ({ username = "" }) => {
                             </ul>
                         </div>
 
+                        {/* Make a Payment Section */}
                         <div className="makePayment w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
                             <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -201,7 +219,7 @@ const PaymentPage = ({ username = "" }) => {
 
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     )
 }

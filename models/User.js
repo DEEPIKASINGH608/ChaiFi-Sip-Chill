@@ -16,10 +16,16 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
-    profilePic: {
+    profilepic: {
         type: String,
     },
-    coverPic: {
+    coverpic: {
+        type: String,
+    },
+    razorpayid: {
+        type: String,
+    },
+    razorpaysecret: {
         type: String,
     },
     createdAt: {
