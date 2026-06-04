@@ -5,8 +5,8 @@ import { useSession } from 'next-auth/react';
 import { fetchuser, fetchpayments, initiate } from '@/actions/useractions'
 
 const PaymentPage = ({ username = "" }) => {
-
-    const [paymentform, setPaymentForm] = useState({});
+    const { data: session } = useSession();
+    const [paymentform, setPaymentForm] = useState({ name: '', message: '', amount: '' });
     const [currentUser, setcurrentUser] = useState({});
     const [payments, setPayments] = useState([])
 
@@ -14,13 +14,17 @@ const PaymentPage = ({ username = "" }) => {
         const getData = async () => {
             let dbPayments = await fetchpayments(username);
             setPayments(dbPayments || []);
+
+            let dbUser = await fetchuser(username);
+            if (dbUser) {
+                setcurrentUser(dbUser);
+            }
         };
 
         if (username) {
             getData();
         }
     }, [username]);
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,7 +34,6 @@ const PaymentPage = ({ username = "" }) => {
         }));
     };
 
-
     const pay = async (amount) => {
         if (!amount || isNaN(amount) || Number(amount) <= 0) {
             alert("Please enter or select a valid amount.");
@@ -38,7 +41,7 @@ const PaymentPage = ({ username = "" }) => {
         }
 
         try {
-            // 1. Initiate the order on the backend
+            // 1. Initiate the order on the backend via Server Action
             let a = await initiate(amount, username, paymentform);
 
             if (!a || !a.id) {
@@ -55,17 +58,17 @@ const PaymentPage = ({ username = "" }) => {
             }
 
             var options = {
-                "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                "key": currentUser.razorpayid || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 "amount": amount * 100,
                 "currency": "INR",
-                "name": "Acme Corp",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
+                "name": "ChaiFi dApp",
+                "description": paymentform.message || "Support Contribution",
+                "image": currentUser.profilepic || "/cat.jpg",
                 "order_id": orderId,
                 "callback_url": `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
                 "prefill": {
-                    "name": paymentform.name || "Ansh Singh",
-                    "email": "ansh.singh@gmail.com",
+                    "name": paymentform.name || "Anonymous User",
+                    "email": session?.user?.email || "supporter@chaifi.com",
                     "contact": "9999999999"
                 },
                 "notes": {
@@ -80,7 +83,6 @@ const PaymentPage = ({ username = "" }) => {
             rzp1.open();
 
         } catch (error) {
-            // This catches any server crashes, network drops, or runtime errors and alerts it!
             console.error("❌ Payment processing failed:", error);
             alert("Payment failed to initialize! Error: " + error.message);
         }
@@ -100,7 +102,7 @@ const PaymentPage = ({ username = "" }) => {
 
                     <img
                         className='object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-[1.03] filter brightness-[0.9] contrast-[1.1] saturate-[1.05]'
-                        src="/patreon_banner.gif"
+                        src={currentUser.coverpic || "/patreon_banner.gif"}
                         alt="Banner"
                     />
                 </div>
@@ -112,7 +114,7 @@ const PaymentPage = ({ username = "" }) => {
                         <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500 shadow-[0_0_30px_rgba(147,51,234,0.3)]"></div>
                         <img
                             className='relative rounded-full h-[110px] w-[110px] border-4 border-[#030712] object-cover bg-black shadow-2xl transition-transform duration-300 group-hover:scale-105'
-                            src="/cat.jpg"
+                            src={currentUser.profilepic || "/cat.jpg"}
                             alt="Profile"
                         />
                     </div>
@@ -123,17 +125,17 @@ const PaymentPage = ({ username = "" }) => {
                             @{username}
                         </h1>
                         <div className='text-slate-400 text-sm max-w-lg font-medium'>
-                            Creating Animated art for VTT's
+                            {currentUser.name ? `Supporting ${currentUser.name}` : "Creating Animated art for VTT's"}
                         </div>
 
                         {/* Badge design for stats */}
                         <div className='bg-cyan-950/40 border border-cyan-500/20 text-cyan-400 text-[11px] font-bold mt-2 px-3 py-1 rounded-full uppercase tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.1)]'>
-                            🚀 9,917 patrons • $29,000 per month
+                            🚀 {payments.length} patrons • ₹{payments.reduce((a, b) => a + b.amount, 0)} raised
                         </div>
                     </div>
 
                     {/* Main Content Blocks */}
-                    <div className="payment flex flex-col md:flex-row gap-6 w-1/2 lg:w-[60%] mt-12">
+                    <div className="payment flex flex-col md:flex-row gap-6 w-11/12 max-w-5xl mt-12">
 
                         {/* Supporters Section */}
                         <div className="supporters w-full md:w-1/2 bg-slate-950/40 backdrop-blur-md border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl">
@@ -141,7 +143,7 @@ const PaymentPage = ({ username = "" }) => {
                                 <span className="text-purple-400">⚡</span> Supporters
                             </h2>
 
-                            <ul className='text-slate-300 text-lg space-y-4'>
+                            <ul className='text-slate-300 space-y-4 text-sm'>
                                 {payments.length === 0 && (
                                     <li className="text-slate-500 text-center mt-10 text-sm">
                                         No supporters yet. Be the first!
@@ -149,17 +151,17 @@ const PaymentPage = ({ username = "" }) => {
                                 )}
 
                                 {payments.map((payment, index) => (
-                                    <li key={index} className="flex flex-col group/item" >
+                                    <li key={index} className="flex flex-col group/item border-b border-white/5 pb-2" >
                                         <div className="flex items-center gap-2">
                                             <img
-                                                src={payment.avatar || "/cat.jpg"} // Fixed: Fallback asset applied if MongoDB avatar is empty
+                                                src="/cat.jpg"
                                                 alt={payment.name}
                                                 className='rounded-full size-8 object-cover border border-white/10 transition-transform group-hover/item:scale-110'
                                             />
                                             <span className="font-bold text-cyan-400 text-base">
                                                 {payment.name}
-                                                <span className="text-slate-400 font-normal"> donated </span>
-                                                ₹{payment.amount}
+                                                <span className="text-slate-400 font-normal text-sm"> donated </span>
+                                                <span className="text-emerald-400">₹{payment.amount}</span>
                                             </span>
                                         </div>
                                         <span className="text-slate-400 italic mt-1 text-sm pl-10">
@@ -171,7 +173,7 @@ const PaymentPage = ({ username = "" }) => {
                         </div>
 
                         {/* Make a Payment Section */}
-                        <div className="makePayment w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
+                        <div className="makePayment w-full md:w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
                             <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
                             <h2 className="text-lg font-bold mb-4 tracking-tight text-slate-200 flex items-center gap-2">
@@ -224,4 +226,5 @@ const PaymentPage = ({ username = "" }) => {
     )
 }
 export default PaymentPage;
+
 

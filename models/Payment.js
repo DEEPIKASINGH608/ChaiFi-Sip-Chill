@@ -3,18 +3,23 @@ import mongoose, { Schema, model } from "mongoose";
 const paymentSchema = new Schema({
     name: {
         type: String,
-        required: true, },
+        required: true,
+    },
     to_user: {
         type: String,
-        required: true, },
+        required: true,
+    },
     oid: {
         type: String,
-        required: true, },
+        required: true,
+    },
     message: {
-        type: String, },
+        type: String,
+    },
     amount: {
         type: Number,
-        required: true, },
+        required: true,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

@@ -1,13 +1,13 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react"
 import { useRouter } from 'next/navigation'
+import { fetchuser, updateProfile } from '@/actions/useractions'
 
 const Dashboard = () => {
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
   const router = useRouter()
 
-  
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -18,33 +18,79 @@ const Dashboard = () => {
     razorpaysecret: ""
   })
 
-
+  // Protect route client-side
   useEffect(() => {
     if (status !== "loading" && !session) {
       router.push('/login')
     }
   }, [session, status, router])
 
-
+  // Fetch true existing profile metrics from DB on session mount
   useEffect(() => {
-    if (session && session.user) {
-      console.log(session.user)
+    const getData = async () => {
+      const currentUsername = session?.user?.username || session?.user?.name;
+      if (currentUsername) {
+        let dbUser = await fetchuser(currentUsername)
+        if (dbUser) {
+          setForm({
+            name: dbUser.name || "",
+            email: dbUser.email || "",
+            username: dbUser.username || "",
+            profilepic: dbUser.profilepic || "",
+            coverpic: dbUser.coverpic || "",
+            razorpayid: dbUser.razorpayid || "",
+            razorpaysecret: dbUser.razorpaysecret || ""
+          })
+        }
+      }
+    }
 
-
-      setForm({
-        name: session.user.name || "",
-        email: session.user.email || "",
-        username: session.user.username || "",
-        profilepic: session.user.image || "",
-        coverpic: "",
-        razorpayid: "",
-        razorpaysecret: ""
-      })
+    if (session) {
+      getData()
     }
   }, [session])
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const currentUsername = session?.user?.username || session?.user?.name;
+    if (!currentUsername) {
+      alert("Session error: Identity token missing.")
+      return
+    }
+
+    // Strip out internal Mongoose structural metadata if present
+    const { _id, __v, createdAt, updatedAt, ...cleanFormData } = form;
+
+    try {
+      // 1. Commit update values directly to MongoDB
+      const res = await updateProfile(currentUsername, cleanFormData)
+
+      if (res && res.success === false) {
+        alert(`❌ ${res.message}`)
+        return
+      }
+
+      // 2. Broadcast structural changes over client-side NextAuth context
+      await update({
+        name: cleanFormData.name,
+        username: cleanFormData.username,
+        email: cleanFormData.email,
+        profilepic: cleanFormData.profilepic,
+        coverpic: cleanFormData.coverpic,
+        razorpayid: cleanFormData.razorpayid,
+        razorpaysecret: cleanFormData.razorpaysecret
+      })
+
+      alert("🎉 Profile properties saved successfully!")
+    } catch (err) {
+      console.error("Failed to commit settings alterations:", err)
+      alert("💥 Error saving changes: " + err.message)
+    }
   }
 
   if (status === "loading") {
@@ -61,9 +107,9 @@ const Dashboard = () => {
     <div className='container mx-auto py-10 px-4 text-white min-h-screen'>
       <h1 className='text-center mb-10 text-3xl font-bold'>Welcome to your Dashboard</h1>
 
-      <div className='flex flex-col gap-5 max-w-2xl mx-auto bg-slate-900/50 p-8 rounded-2xl border border-white/5 shadow-xl'>
+      {/* Changed container into an explicit HTML form element */}
+      <form onSubmit={handleSubmit} className='flex flex-col gap-5 max-w-2xl mx-auto bg-slate-900/50 p-8 rounded-2xl border border-white/5 shadow-xl'>
 
-        {/* Input Groups */}
         {[
           { label: "Name", name: "name", type: "text" },
           { label: "Email", name: "email", type: "email" },
@@ -87,14 +133,16 @@ const Dashboard = () => {
           </div>
         ))}
 
-        <button className='w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-xl mt-4 transition-all shadow-lg active:scale-[0.98]'>
+        {/* This button will now properly fire your onSubmit form interceptor */}
+        <button type="submit" className='w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-xl mt-4 transition-all shadow-lg active:scale-[0.98]'>
           Save Settings
         </button>
-      </div>
+      </form>
     </div>
   )
 }
 
 export default Dashboard
+
 
 
