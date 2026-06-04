@@ -41,7 +41,6 @@ const PaymentPage = ({ username = "" }) => {
         }
 
         try {
-            // 1. Initiate the order on the backend via Server Action
             let a = await initiate(amount, username, paymentform);
 
             if (!a || !a.id) {
@@ -50,8 +49,6 @@ const PaymentPage = ({ username = "" }) => {
             }
 
             let orderId = a.id;
-
-            // 2. Check if Razorpay script loaded correctly
             if (!window.Razorpay) {
                 alert("Razorpay SDK failed to load. Please check your internet connection or reload the page.");
                 return;
@@ -83,7 +80,7 @@ const PaymentPage = ({ username = "" }) => {
             rzp1.open();
 
         } catch (error) {
-            console.error("❌ Payment processing failed:", error);
+            console.error("Payment processing failed:", error);
             alert("Payment failed to initialize! Error: " + error.message);
         }
     };
