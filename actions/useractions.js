@@ -21,7 +21,7 @@ export const initiate = async (amount, username, paymentformData) => {
 
         await Payment.create({
             oid: x.id,
-            amount: amount,
+            amount: amount/100,
             to_user: username,
             name: paymentformData.name,
             message: paymentformData.message
@@ -43,7 +43,7 @@ export const fetchuser = async (username) => {
 
 export const fetchpayments = async (username) => {
     await connectDB()
-    let p = await Payment.find({ to_user: username }).sort({ amount: -1 }).lean()
+    let p = await Payment.find({ to_user: username, done:true }).sort({ amount: -1 }).lean()
     return JSON.parse(JSON.stringify(p))
 }
 

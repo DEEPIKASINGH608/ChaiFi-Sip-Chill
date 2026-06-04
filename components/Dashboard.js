@@ -7,7 +7,15 @@ import { fetchuser, updateProfile } from '@/actions/useractions'
 const Dashboard = () => {
     const { data: session, update } = useSession()
     const router = useRouter()
-    const [form, setForm] = useState({})
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        username: "",
+        profilepic: "",
+        coverpic: "",
+        razorpayid: "",
+        razorpaysecret: ""
+    })
 
 
     useEffect(() => {
@@ -56,12 +64,20 @@ const Dashboard = () => {
             })
 
             alert("🎉 Profile updated successfully!")
+            // 4. FIXED: Safe routing synchronization
+            // If the username didn't change, router.push works seamlessly
+            if (currentUsername === cleanFormData.username) {
+                router.push(`/${cleanFormData.username}`)
+            } else {
+                // If the username changed, force a clean reload to sync the cookies
+                // This prevents Next-Auth from thinking you are logged out
+                window.location.href = `${window.location.origin}/${cleanFormData.username}`
+            }
         } catch (err) {
             console.error("Failed to update profile:", err)
             alert("💥 Error updating profile: " + err.message)
         }
     }
-
 
 
     return (

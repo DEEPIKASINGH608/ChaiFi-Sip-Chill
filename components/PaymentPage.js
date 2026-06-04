@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import Script from 'next/script'
 import { useSession } from 'next-auth/react';
-import { fetchuser, fetchpayments, initiate } from '@/actions/useractions'
+import { fetchuser, fetchpayments } from '@/actions/useractions'
+import { initiate } from '@/lib/api'
 
 const PaymentPage = ({ username = "" }) => {
     const { data: session } = useSession();
@@ -32,6 +33,12 @@ const PaymentPage = ({ username = "" }) => {
             ...prev,
             [name]: value
         }));
+    };
+
+    const isValidUrl = (url) => {
+        if (!url) return false;
+        if (url === "https://" || url === "http://") return false;
+        return url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/");
     };
 
     const pay = async (amount) => {
@@ -196,7 +203,7 @@ const PaymentPage = ({ username = "" }) => {
                                         className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                     />
 
-                                    <button onClick={() => pay(paymentform.amount)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95">
+                                    <button onClick={() => pay(Number.parseInt(paymentform.amount)*100)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95 disabled:bg-slate-600">
                                         Pay
                                     </button>
                                 </div>
