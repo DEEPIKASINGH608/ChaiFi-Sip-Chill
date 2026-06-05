@@ -4,12 +4,16 @@ import Script from 'next/script'
 import { useSession } from 'next-auth/react';
 import { fetchuser, fetchpayments } from '@/actions/useractions'
 import { initiate } from '@/lib/api'
+import { ToastContainer, toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useSearchParams } from 'next/navigation';
 
 const PaymentPage = ({ username = "" }) => {
     const { data: session } = useSession();
     const [paymentform, setPaymentForm] = useState({ name: '', message: '', amount: '' });
     const [currentUser, setcurrentUser] = useState({});
     const [payments, setPayments] = useState([])
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const getData = async () => {
@@ -26,6 +30,25 @@ const PaymentPage = ({ username = "" }) => {
             getData();
         }
     }, [username]);
+
+
+    useEffect(() => {
+        if (searchParams.get("paymentdone") === "true" )
+            {
+            toast('Thanks for your payment!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+    }, [])
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -94,6 +117,19 @@ const PaymentPage = ({ username = "" }) => {
 
     return (
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+            />
             <Script src="https://checkout.razorpay.com/v1/checkout.js"></Script>
 
             <div className='w-full bg-[#030712] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-gray-950 to-black text-white pb-12 min-h-screen text-sm selection:bg-cyan-500 selection:text-black'>
@@ -203,7 +239,7 @@ const PaymentPage = ({ username = "" }) => {
                                         className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                     />
 
-                                    <button onClick={() => pay(Number.parseInt(paymentform.amount)*100)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95 disabled:bg-slate-600">
+                                    <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95 disabled:bg-purple-100 disabled:from-purple-100" disabled={paymentform.name.length < 3 || paymentform.message.length < 4 || !paymentform.amount}>
                                         Pay
                                     </button>
                                 </div>
@@ -230,5 +266,7 @@ const PaymentPage = ({ username = "" }) => {
     )
 }
 export default PaymentPage;
+
+
 
 
