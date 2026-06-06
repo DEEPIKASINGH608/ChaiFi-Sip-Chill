@@ -133,7 +133,6 @@ const Dashboard = () => {
           </div>
         ))}
 
-        {/* This button will now properly fire your onSubmit form interceptor */}
         <button type="submit" className='w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-xl mt-4 transition-all shadow-lg active:scale-[0.98]'>
           Save Settings
         </button>
@@ -143,6 +142,4 @@ const Dashboard = () => {
 }
 
 export default Dashboard
-
-
 
