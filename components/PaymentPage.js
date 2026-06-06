@@ -49,7 +49,6 @@ const PaymentPage = ({ username = "" }) => {
         }
     }, [])
 
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setPaymentForm((prev) => ({

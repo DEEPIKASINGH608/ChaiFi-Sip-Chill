@@ -82,5 +82,3 @@ export const updateProfile = async (oldusername, data) => {
         throw new Error(error.message || "Failed to update profile due to an internal error.");
     }
 }
-
-
