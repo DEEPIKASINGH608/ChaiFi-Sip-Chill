@@ -41,7 +41,6 @@ const Dashboard = () => {
     }
 
     const handleSubmit = async (e) => {
-        //  Stop the form from reloading the browser page instantly
         e.preventDefault()
 
         const currentUsername = session?.user?.username || session?.user?.name;
@@ -63,19 +62,15 @@ const Dashboard = () => {
                 razorpaysecret: cleanFormData.razorpaysecret
             })
 
-            alert("🎉 Profile updated successfully!")
-            // 4. FIXED: Safe routing synchronization
-            // If the username didn't change, router.push works seamlessly
+            alert("Profile updated successfully!")
             if (currentUsername === cleanFormData.username) {
                 router.push(`/${cleanFormData.username}`)
             } else {
-                // If the username changed, force a clean reload to sync the cookies
-                // This prevents Next-Auth from thinking you are logged out
                 window.location.href = `${window.location.origin}/${cleanFormData.username}`
             }
         } catch (err) {
             console.error("Failed to update profile:", err)
-            alert("💥 Error updating profile: " + err.message)
+            alert("Error updating profile: " + err.message)
         }
     }
 

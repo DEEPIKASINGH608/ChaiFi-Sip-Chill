@@ -211,7 +211,7 @@ const PaymentPage = ({ username = "" }) => {
                             </ul>
                         </div>
 
-                        {/* Make a Payment Section */}
+                        {/* Payment Section */}
                         <div className="makePayment w-full md:w-1/2 bg-gradient-to-br from-slate-900/90 to-slate-950 border border-white/5 p-6 rounded-2xl min-h-[300px] shadow-2xl relative overflow-hidden">
                             <div className="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
 

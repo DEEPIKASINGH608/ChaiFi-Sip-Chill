@@ -57,7 +57,6 @@ export const authOptions = {
     },
 
     async session({ session, token }) {
-      // Pass token credentials safely through to the front-end session instance
       if (token && session.user) {
         session.user.username = token.username;
         session.user.name = token.name;

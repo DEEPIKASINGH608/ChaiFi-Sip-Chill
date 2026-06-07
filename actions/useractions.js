@@ -50,10 +50,8 @@ export const fetchpayments = async (username) => {
 
 export const updateProfile = async (oldusername, data) => {
     try {
-        // 1. Ensure database is connected
         await connectDB();
 
-        // 2. Double check if the username is being changed, using the correct lowercase variable names
         if (oldusername !== data.username) {
             const existingUser = await User.findOne({ username: data.username });
             if (existingUser) {
@@ -61,7 +59,6 @@ export const updateProfile = async (oldusername, data) => {
             }
         }
 
-        // 3. Find by the OLD username and update with the new data object values
         const updatedUser = await User.findOneAndUpdate(
             { username: oldusername },
             { $set: data },
@@ -82,3 +79,4 @@ export const updateProfile = async (oldusername, data) => {
         throw new Error(error.message || "Failed to update profile due to an internal error.");
     }
 }
+

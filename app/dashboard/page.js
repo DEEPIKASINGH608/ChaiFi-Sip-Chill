@@ -71,7 +71,7 @@ const Dashboard = () => {
       const res = await updateProfile(currentUsername, cleanFormData)
 
       if (res && res.success === false) {
-        alert(`❌ ${res.message}`)
+        alert(` ${res.message}`)
         return
       }
 
@@ -86,10 +86,10 @@ const Dashboard = () => {
         razorpaysecret: cleanFormData.razorpaysecret
       })
 
-      alert("🎉 Profile properties saved successfully!")
+      alert("Profile properties saved successfully!")
     } catch (err) {
       console.error("Failed to commit settings alterations:", err)
-      alert("💥 Error saving changes: " + err.message)
+      alert("Error saving changes: " + err.message)
     }
   }
 
@@ -107,7 +107,6 @@ const Dashboard = () => {
     <div className='container mx-auto py-10 px-4 text-white min-h-screen'>
       <h1 className='text-center mb-10 text-3xl font-bold'>Welcome to your Dashboard</h1>
 
-      {/* Changed container into an explicit HTML form element */}
       <form onSubmit={handleSubmit} className='flex flex-col gap-5 max-w-2xl mx-auto bg-slate-900/50 p-8 rounded-2xl border border-white/5 shadow-xl'>
 
         {[
