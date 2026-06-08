@@ -76,6 +76,7 @@ const Dashboard = () => {
 
 
     return (
+        <>
         <div className='container mx-auto py-0 px-0'>
             <h1 className='text-center my-3 text-2xl font-bold'>My Dashboard</h1>
             <form className='max-w-2xl mx-auto' onSubmit={handleSubmit}>
@@ -121,6 +122,7 @@ const Dashboard = () => {
                 </div>
             </form>
         </div>
+        </>
     )
 }
 

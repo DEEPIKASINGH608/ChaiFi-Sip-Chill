@@ -7,6 +7,7 @@ import { initiate } from '@/lib/api'
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const PaymentPage = ({ username = "" }) => {
     const { data: session } = useSession();
@@ -14,7 +15,7 @@ const PaymentPage = ({ username = "" }) => {
     const [currentUser, setcurrentUser] = useState({});
     const [payments, setPayments] = useState([])
     const searchParams = useSearchParams();
-
+    const router = useRouter();
     useEffect(() => {
         const getData = async () => {
             let dbPayments = await fetchpayments(username);
@@ -48,6 +49,9 @@ const PaymentPage = ({ username = "" }) => {
             });
         }
     }, [])
+    router.push(`/payment/${username}`)
+
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;

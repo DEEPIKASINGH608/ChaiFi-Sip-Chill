@@ -13,7 +13,7 @@ const Navbar = () => {
         <nav className="bg-[#020617] h-16 border-b border-white/5 shadow-lg text-[#F8FAFC] flex items-center justify-between px-8 sticky top-0 z-50">
 
             <div className="logo font-bold text-lg flex items-center gap-2 cursor-pointer">
-                <img src="chaig.gif" className="h-10 w-auto object-contain" alt="Logo" />
+                <img src="/chaig.gif" className="h-10 w-auto object-contain" alt="Logo" />
                 <span className="hover:text-[#cedbef] transition-colors">ChaiFi</span>
             </div>
 
