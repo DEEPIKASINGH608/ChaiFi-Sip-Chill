@@ -62,7 +62,17 @@ const Dashboard = () => {
                 razorpaysecret: cleanFormData.razorpaysecret
             })
 
-            alert("Profile updated successfully!")
+            toast('Profile updated successfully!'), {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            }
             if (currentUsername === cleanFormData.username) {
                 router.push(`/${cleanFormData.username}`)
             } else {
@@ -77,51 +87,51 @@ const Dashboard = () => {
 
     return (
         <>
-        <div className='container mx-auto py-0 px-0'>
-            <h1 className='text-center my-3 text-2xl font-bold'>My Dashboard</h1>
-            <form className='max-w-2xl mx-auto' onSubmit={handleSubmit}>
-                <div className='max-w-md mx-auto flex flex-col gap-3 bg-[#0f172a] p-6 rounded-xl border border-white/5'>
-                    {/* Name */}
-                    <div className='flex flex-col.5 w-full max-w-sm mx-auto'>
-                        <label htmlFor="name" className='text-sm font-semibold'>Name</label>
-                        <input value={form.name} onChange={handleChange} name='name' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+            <div className='container mx-auto py-0 px-0'>
+                <h1 className='text-center my-3 text-2xl font-bold'>My Dashboard</h1>
+                <form className='max-w-2xl mx-auto' onSubmit={handleSubmit}>
+                    <div className='max-w-md mx-auto flex flex-col gap-3 bg-[#0f172a] p-6 rounded-xl border border-white/5'>
+                        {/* Name */}
+                        <div className='flex flex-col.5 w-full max-w-sm mx-auto'>
+                            <label htmlFor="name" className='text-sm font-semibold'>Name</label>
+                            <input value={form.name} onChange={handleChange} name='name' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        {/* Email */}
+                        <div className='flex flex-col'>
+                            <label htmlFor="email" className='text-sm font-semibold'>Email</label>
+                            <input value={form.email} onChange={handleChange} name='email' type="email" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        {/* Username */}
+                        <div className='flex flex-col'>
+                            <label htmlFor="username" className='text-sm font-semibold'>Username</label>
+                            <input value={form.username} onChange={handleChange} name='username' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        {/* profile Picture */}
+                        <div className='flex flex-col'>
+                            <label htmlFor="profilepic" className='text-sm font-semibold'>Profile Picture</label>
+                            <input value={form.profilepic ? form.profilepic : ""} onChange={handleChange} name='profilepic' id='profilepic' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        {/* Cover Picture */}
+                        <div className='flex flex-col'>
+                            <label htmlFor="coverpic" className='text-sm font-semibold'>Cover Picture</label>
+                            <input value={form.coverpic ? form.coverpic : ""} onChange={handleChange} name='coverpic' id='coverpic' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        {/* Razorpay Credentials */}
+                        <div className='flex flex-col'>
+                            <label htmlFor="razorpayid" className='text-sm font-semibold'>Razorpay Id</label>
+                            <input value={form.razorpayid} onChange={handleChange} name='razorpayid' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        <div className='flex flex-col'>
+                            <label htmlFor="razorpaysecret" className='text-sm font-semibold'>Razorpay Secret</label>
+                            <input value={form.razorpaysecret} onChange={handleChange} name='razorpaysecret' type="password" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+                        </div>
+                        {/* Save Button */}
+                        <button className='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4 transition-all'>
+                            Save
+                        </button>
                     </div>
-                    {/* Email */}
-                    <div className='flex flex-col'>
-                        <label htmlFor="email" className='text-sm font-semibold'>Email</label>
-                        <input value={form.email} onChange={handleChange} name='email' type="email" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-                    </div>
-                    {/* Username */}
-                    <div className='flex flex-col'>
-                        <label htmlFor="username" className='text-sm font-semibold'>Username</label>
-                        <input value={form.username} onChange={handleChange} name='username' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-                    </div>
-                    {/* profile Picture */}
-                    <div className='flex flex-col'>
-                        <label htmlFor="profilepic" className='text-sm font-semibold'>Profile Picture</label>
-                        <input value={form.profilepic ? form.profilepic : ""} onChange={handleChange} name='profilepic' id='profilepic' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-                    </div>
-                    {/* Cover Picture */}
-                    <div className='flex flex-col'>
-                        <label htmlFor="coverpic" className='text-sm font-semibold'>Cover Picture</label>
-                        <input value={form.coverpic ? form.coverpic : ""} onChange={handleChange} name='coverpic' id='coverpic' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-                    </div>
-                    {/* Razorpay Credentials */}
-                    <div className='flex flex-col'>
-                        <label htmlFor="razorpayid" className='text-sm font-semibold'>Razorpay Id</label>
-                        <input value={form.razorpayid} onChange={handleChange} name='razorpayid' type="text" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-                    </div>
-                    <div className='flex flex-col'>
-                        <label htmlFor="razorpaysecret" className='text-sm font-semibold'>Razorpay Secret</label>
-                        <input value={form.razorpaysecret} onChange={handleChange} name='razorpaysecret' type="password" className='w-full p-2 rounded-lg bg-slate-800 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-                    </div>
-                    {/* Save Button */}
-                    <button className='w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4 transition-all'>
-                        Save
-                    </button>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
         </>
     )
 }

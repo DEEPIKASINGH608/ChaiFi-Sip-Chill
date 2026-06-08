@@ -16,6 +16,8 @@ const PaymentPage = ({ username = "" }) => {
     const [payments, setPayments] = useState([])
     const searchParams = useSearchParams();
     const router = useRouter();
+
+
     useEffect(() => {
         const getData = async () => {
             let dbPayments = await fetchpayments(username);
@@ -47,10 +49,9 @@ const PaymentPage = ({ username = "" }) => {
                 theme: "light",
                 transition: Bounce,
             });
+            router.push(`/${username}`)
         }
-    }, [])
-    router.push(`/payment/${username}`)
-
+    }, [searchParams, username, router])
 
 
     const handleChange = (e) => {

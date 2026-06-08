@@ -7,13 +7,15 @@ import User from "@/models/User";
 
 export const initiate = async (amount, username, paymentformData) => {
     await connectDB()
-    var instance = new Razorpay({
-        key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        key_secret: process.env.RAZORPAY_KEY_SECRET,
+    const instance = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key_secret: process.env.RAZORPAY_SECRET || process.env.RAZORPAY_KEY_SECRET,
     });
 
+    const amountInPaise = Number.parseInt(amount) * 100;
+
     let options = {
-        amount: Number.parseInt(amount) * 100,
+        amount: amountInPaise,
         currency: "INR",
     }
     try {
@@ -21,7 +23,7 @@ export const initiate = async (amount, username, paymentformData) => {
 
         await Payment.create({
             oid: x.id,
-            amount: amount/100,
+            amount: Number.parseInt(amount),
             to_user: username,
             name: paymentformData.name,
             message: paymentformData.message
@@ -37,6 +39,7 @@ export const initiate = async (amount, username, paymentformData) => {
 export const fetchuser = async (username) => {
     await connectDB()
     let u = await User.findOne({ username: username })
+    if (!u) return null;
     let user = JSON.parse(JSON.stringify(u))
     return user
 }
