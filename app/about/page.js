@@ -3,7 +3,6 @@ import React from 'react'
 const About = () => {
     return (
     <div className="text-white container mx-auto py-32 flex flex-col items-center justify-center">
-        {/* Write each and every functionality of the platform in detail and how it works, and also write about the team behind the project and their vision for the future of the platform. */}
         <h1 className="text-3xl font-bold text-center mb-4 ">About Us</h1>
         We provide a platform for independent creators to connect with their fans and offer exclusive content and rewards in exchange for monthly support.
         <div className="flex items-center justify-center gap-6 mt-8 marker text-2xl"></div>
