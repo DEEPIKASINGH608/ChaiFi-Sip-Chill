@@ -6,21 +6,17 @@ import User from '@/models/User';
 
 
 const Username = async ({ params }) => {
-
-    const checkUser = async () => {
-        await connectDB();
-        let u = await User.findOne({ username: params.username })
-        if (!u) return {
-            return notFound()
-        }
+    const { username } = await params;
+    await connectDB();
+    let u = await User.findOne({ username: username });
+    if (!u) {
+        return notFound();
     }
-    await checkUser()
-
     return (
         <>
-            <PaymentPage username={params.username} />
-
+            <PaymentPage username={username} />
         </>
-    )
+    );
+};
 
-}
+export default Username;

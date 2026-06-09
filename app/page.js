@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -14,12 +15,20 @@ export default function Home() {
           A decentralized application (dApp) built on the Ethereum blockchain that allows users to create and manage their own tea shops.
         </p>
         <div className="flex gap-4">
-          <button className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 font-medium rounded-lg text-sm px-8 py-3 transition-all duration-300 transform hover:scale-105">
-            Start Now
-          </button>
-          <button className="text-white border border-slate-700 bg-slate-900/50 hover:bg-slate-800 font-medium rounded-lg text-sm px-8 py-3 transition-all">
-            Read More
-          </button>
+
+
+          <Link href="/login">
+            <button className="text-white bg-gradient-to-br from-purple-600 to-blue-700 hover:bg-gradient-to-bl focus:ring-4 font-medium rounded-lg text-sm px-8 py-3 transition-all duration-300 transform hover:scale-105">
+              Start Now
+            </button>
+          </Link>
+
+          <Link href="/about">
+            <button className="text-white border border-slate-700 bg-slate-900/50 hover:bg-slate-800 font-medium rounded-lg text-sm px-8 py-3 transition-all">
+              Read More
+            </button>
+          </Link>
+
         </div>
       </div>
 

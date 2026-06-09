@@ -8,10 +8,6 @@ import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { Bounce } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-import { notFound } from 'next/navigation';
 
 const PaymentPage = ({ username = "" }) => {
     const { data: session } = useSession();
@@ -246,7 +242,7 @@ const PaymentPage = ({ username = "" }) => {
                                         className="min-w-0 flex-1 p-3 text-sm rounded-xl bg-white/[0.03] border border-white/10 focus:border-cyan-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-slate-500"
                                     />
 
-                                    <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95 disabled:bg-purple-100 disabled:from-purple-100" disabled={paymentform.name.length < 3 || paymentform.message.length < 4 || !paymentform.amount}>
+                                    <button onClick={() => pay(Number.parseInt(paymentform.amount))} id="rzp-button1" className="whitespace-nowrap bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-bold py-2 px-6 rounded-xl transition-all shadow-[0_0_20px_rgba(147,51,234,0.3)] active:scale-95 disabled:bg-purple-100 disabled:from-purple-100" disabled={paymentform.name.length < 3 || paymentform.message.length < 4 || !paymentform.amount}>
                                         Pay
                                     </button>
                                 </div>
