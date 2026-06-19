@@ -25,3 +25,10 @@ await checkUser()
 
 export default Username;
 
+
+export async function generateMetadata({ params })  {
+    return {
+    title : `${params.username} - Chaify`,
+    }
+}
+
