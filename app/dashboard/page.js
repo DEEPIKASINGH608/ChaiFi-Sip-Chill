@@ -18,14 +18,13 @@ const Dashboard = () => {
     razorpaysecret: ""
   })
 
-  // Protect route client-side
   useEffect(() => {
     if (status !== "loading" && !session) {
       router.push('/login')
     }
   }, [session, status, router])
 
-  // Fetch true existing profile metrics from DB on session mount
+
   useEffect(() => {
     const getData = async () => {
       const currentUsername = session?.user?.username || session?.user?.name;
@@ -63,11 +62,10 @@ const Dashboard = () => {
       return
     }
 
-    // Strip out internal Mongoose structural metadata if present
+
     const { _id, __v, createdAt, updatedAt, ...cleanFormData } = form;
 
     try {
-      // 1. Commit update values directly to MongoDB
       const res = await updateProfile(currentUsername, cleanFormData)
 
       if (res && res.success === false) {
@@ -75,7 +73,7 @@ const Dashboard = () => {
         return
       }
 
-      // 2. Broadcast structural changes over client-side NextAuth context
+
       await update({
         name: cleanFormData.name,
         username: cleanFormData.username,
@@ -96,7 +94,7 @@ const Dashboard = () => {
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen text-white">
-        Loading...
+        Loading...Please Wait.
       </div>
     )
   }
