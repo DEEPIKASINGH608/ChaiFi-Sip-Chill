@@ -16,7 +16,9 @@ const Username = async ({ params }) => {
 
     return (
         <>
+        <div className="min-h-screen bg-slate-950 text-white">
             <PaymentPage username={username} />
+        </div>
         </>
     );
 };
