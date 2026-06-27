@@ -85,20 +85,50 @@ Open http://localhost:3000 in your browser to interact with the application.
 ## 📸 Project Screenshots
 
 ### 🔑 Authentication & Landing
-| Landing Page | Login Screen |
-| :---: | :---: |
-| ![Landing Page](public/screenshots/landingPage.png) | ![Login Screen](public/screenshots/login.png) |
+<table width="100%">
+  <tr>
+    <td width="50%" align="center"><b>Landing Page</b></td>
+    <td width="50%" align="center"><b>Login Screen</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/screenshots/landingPage.png" width="100%" alt="Landing Page"></td>
+    <td><img src="public/screenshots/login.png" width="100%" alt="Login Screen"></td>
+  </tr>
+</table>
 
 ### 📊 User Dashboard & Settings
-| Dashboard View | Profile Settings |
-| :---: | :---: |
-| ![Dashboard](public/screenshots/profile.png) | ![Profile Update](public/screenshots/profileUpdate.png) |
+<table width="100%">
+  <tr>
+    <td width="50%" align="center"><b>Dashboard View</b></td>
+    <td width="50%" align="center"><b>Profile Settings</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/screenshots/profile.png" width="100%" alt="Dashboard View"></td>
+    <td><img src="public/screenshots/profileUpdate.png" width="100%" alt="Profile Settings"></td>
+  </tr>
+</table>
 
 ### 💳 Razorpay Payment Workflow
-| Payment Options | Bank Gateway | Confirmation Screen |
-| :---: | :---: | :---: |
-| ![Services Overview](public/screenshots/services.png) | ![Bank Simulation](public/screenshots/bank.png) | ![Payment Confirmation](public/screenshots/confirmPayment.png) |
+<table width="100%">
+  <tr>
+    <td width="33%" align="center"><b>Payment Options</b></td>
+    <td width="34%" align="center"><b>Bank Gateway</b></td>
+    <td width="33%" align="center"><b>Confirmation Screen</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/screenshots/services.png" width="100%" alt="Payment Options"></td>
+    <td><img src="public/screenshots/bank.png" width="100%" alt="Bank Gateway"></td>
+    <td><img src="public/screenshots/confirmPayment.png" width="100%" alt="Confirmation Screen"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Processing Payment</b></td>
+    <td align="center"><b>Success Receipt</b></td>
+    <td align="center"><b>Thank You Screen</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/screenshots/pay2.PNG" width="100%" alt="Processing Payment"></td>
+    <td><img src="public/screenshots/paymentSuccess.png" width="100%" alt="Success Receipt"></td>
+    <td><img src="public/screenshots/thanksforPay.png" width="100%" alt="Thank You Screen"></td>
+  </tr>
+</table>
 
-| Processing Payment | Success Receipt | Thank You Screen |
-| :---: | :---: | :---: |
-| ![Processing](public/screenshots/pay2.PNG) | ![Payment Success](public/screenshots/paymentSuccess.png) | ![Thanks Page](public/screenshots/thanksforPay.png) |
