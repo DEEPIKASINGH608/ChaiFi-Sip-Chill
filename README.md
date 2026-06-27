@@ -82,6 +82,23 @@ Open http://localhost:3000 in your browser to interact with the application.
 
    Session Hydration: The custom session() callback runs, querying MongoDB to fetch properties like the unique username and binding it directly onto session.user so it's accessible globally across the front end.
 
+## 📸 Project Screenshots
 
+### 🔑 Authentication & Landing
+| Landing Page | Login Screen |
+| :---: | :---: |
+| ![Landing Page](/screenshots/landingPage.png) | ![Login Screen](/screenshots/login.png) |
 
-   
+### 📊 User Dashboard & Settings
+| Dashboard View | Profile Settings |
+| :---: | :---: |
+| ![Dashboard](/screenshots/profile.png) | ![Profile Update](/screenshots/profileUpdate.png) |
+
+### 💳 Razorpay Payment Workflow
+| Payment Options | Bank Gateway | Confirmation Screen |
+| :---: | :---: | :---: |
+| ![Services Overview](/screenshots/services.png) | ![Bank Simulation](/screenshots/bank.png) | ![Payment Confirmation](/screenshots/confirmPayment.png) |
+
+| Processing Payment | Success Receipt | Thank You Screen |
+| :---: | :---: | :---: |
+| ![Processing](/screenshots/pay2.PNG) | ![Payment Success](/screenshots/paymentSuccess.png) | ![Thanks Page](/screenshots/thanksforPay.png) |
