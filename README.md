@@ -87,18 +87,18 @@ Open http://localhost:3000 in your browser to interact with the application.
 ### 🔑 Authentication & Landing
 | Landing Page | Login Screen |
 | :---: | :---: |
-| ![Landing Page](/screenshots/landingPage.png) | ![Login Screen](/screenshots/login.png) |
+| ![Landing Page](public/screenshots/landingPage.png) | ![Login Screen](public/screenshots/login.png) |
 
 ### 📊 User Dashboard & Settings
 | Dashboard View | Profile Settings |
 | :---: | :---: |
-| ![Dashboard](/screenshots/profile.png) | ![Profile Update](/screenshots/profileUpdate.png) |
+| ![Dashboard](public/screenshots/profile.png) | ![Profile Update](public/screenshots/profileUpdate.png) |
 
 ### 💳 Razorpay Payment Workflow
 | Payment Options | Bank Gateway | Confirmation Screen |
 | :---: | :---: | :---: |
-| ![Services Overview](/screenshots/services.png) | ![Bank Simulation](/screenshots/bank.png) | ![Payment Confirmation](/screenshots/confirmPayment.png) |
+| ![Services Overview](public/screenshots/services.png) | ![Bank Simulation](public/screenshots/bank.png) | ![Payment Confirmation](public/screenshots/confirmPayment.png) |
 
 | Processing Payment | Success Receipt | Thank You Screen |
 | :---: | :---: | :---: |
-| ![Processing](/screenshots/pay2.PNG) | ![Payment Success](/screenshots/paymentSuccess.png) | ![Thanks Page](/screenshots/thanksforPay.png) |
+| ![Processing](public/screenshots/pay2.PNG) | ![Payment Success](public/screenshots/paymentSuccess.png) | ![Thanks Page](public/screenshots/thanksforPay.png) |
