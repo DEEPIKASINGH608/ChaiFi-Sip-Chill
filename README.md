@@ -104,7 +104,7 @@ Open http://localhost:3000 in your browser to interact with the application.
   </tr>
   <tr>
     <td><img src="public/screenshots/profile.png" width="100%" alt="Dashboard View"></td>
-    <td><img src="public/screenshots/profileUpdate.png" width="100%" alt="Profile Settings"></td>
+    <td><img src="public/screenshots/profileUpdated2.PNG" width="100%" alt="Profile Settings"></td>
   </tr>
 </table>
 
@@ -118,7 +118,7 @@ Open http://localhost:3000 in your browser to interact with the application.
   <tr>
     <td><img src="public/screenshots/services.png" width="100%" alt="Payment Options"></td>
     <td><img src="public/screenshots/bank.png" width="100%" alt="Bank Gateway"></td>
-    <td><img src="public/screenshots/confirmPayment.png" width="100%" alt="Confirmation Screen"></td>
+    <td><img src="public/screenshots/confirmPayment2.PNG" width="100%" alt="Confirmation Screen"></td>
   </tr>
   <tr>
     <td align="center"><b>Processing Payment</b></td>
@@ -128,7 +128,6 @@ Open http://localhost:3000 in your browser to interact with the application.
   <tr>
     <td><img src="public/screenshots/pay2.PNG" width="100%" alt="Processing Payment"></td>
     <td><img src="public/screenshots/paymentSuccess.png" width="100%" alt="Success Receipt"></td>
-    <td><img src="public/screenshots/thanksforPay.png" width="100%" alt="Thank You Screen"></td>
+    <td><img src="public/screenshots/thanksforPayment.png" width="100%" alt="Thank You Screen"></td>
   </tr>
 </table>
-
